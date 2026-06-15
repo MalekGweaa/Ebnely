@@ -132,7 +132,7 @@ onMounted(() => {
                 <div class="relative rounded-2xl overflow-hidden h-full shadow-[0_20px_40px_rgba(0,0,0,0.2)]">
                     <img 
                         ref="imageRef"
-                        src="/images/chair.jpg" 
+                        :src="baseUrl + 'images/chair.jpg'" 
                         alt="Comfortable seating symbolizing peace of mind" 
                         class="absolute inset-0 w-full h-full object-cover object-left transform-origin-center"
                     />
