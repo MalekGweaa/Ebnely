@@ -8,7 +8,7 @@ const descRef = ref<HTMLElement | null>(null);
 const cardsRef = ref<HTMLElement[]>([]);
 const imageContainerRef = ref<HTMLElement | null>(null);
 const imageRef = ref<HTMLElement | null>(null);
-const chairImage = import.meta.env.BASE_URL + 'images/chair.jpg';
+const chairImage = '/images/chair.jpg';
 
 const services = [
     {
