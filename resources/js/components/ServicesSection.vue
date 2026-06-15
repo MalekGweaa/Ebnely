@@ -8,6 +8,7 @@ const descRef = ref<HTMLElement | null>(null);
 const cardsRef = ref<HTMLElement[]>([]);
 const imageContainerRef = ref<HTMLElement | null>(null);
 const imageRef = ref<HTMLElement | null>(null);
+const chairImage = import.meta.env.BASE_URL + 'images/chair.jpg';
 
 const services = [
     {
@@ -132,7 +133,7 @@ onMounted(() => {
                 <div class="relative rounded-2xl overflow-hidden h-full shadow-[0_20px_40px_rgba(0,0,0,0.2)]">
                     <img 
                         ref="imageRef"
-                        :src="baseUrl + 'images/chair.jpg'" 
+                        :src="chairImage" 
                         alt="Comfortable seating symbolizing peace of mind" 
                         class="absolute inset-0 w-full h-full object-cover object-left transform-origin-center"
                     />
