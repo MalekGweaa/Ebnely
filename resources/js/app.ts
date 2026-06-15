@@ -34,7 +34,7 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(createPinia())
-            .mount(el);
+            .mount(el as HTMLElement);
     },
 });
 
