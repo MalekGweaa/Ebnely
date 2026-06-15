@@ -18,7 +18,7 @@
             </a>
             
             <div class="mt-20 pt-10 border-t border-border flex flex-col md:flex-row justify-between items-center text-secondary-foreground/60 text-sm">
-                <p>&copy; 2026 Premium Digital Agency. All rights reserved.</p>
+                <p>&copy; 2026 Ebnely. All rights reserved.</p>
                 <div class="flex space-x-6 mt-4 md:mt-0">
                     <a href="#" class="hover:text-primary transition-colors">Twitter</a>
                     <a href="#" class="hover:text-primary transition-colors">LinkedIn</a>

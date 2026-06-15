@@ -22,6 +22,7 @@ const blocks = Array.from({ length: totalBlocks }).map((_, i) => {
     // 25% chance to be an empty space to match the pattern in the screenshot
     const isVisible = Math.random() > 0.25;
     const color = colors[Math.floor(Math.random() * colors.length)];
+
     return { id: i, isVisible, color };
 });
 
@@ -66,7 +67,7 @@ onMounted(() => {
         :style="{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`, gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))` }"
     >
         <div
-            v-for="(block, index) in blocks"
+            v-for="block in blocks"
             :key="block.id"
             ref="blocksRef"
             class="rounded-md md:rounded-xl w-full h-full shadow-sm"

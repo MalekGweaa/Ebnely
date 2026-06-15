@@ -39,7 +39,10 @@ onMounted(() => {
 const scrollToServices = (e: Event) => {
     e.preventDefault();
     const el = document.getElementById('services');
-    if (!el) return;
+
+    if (!el) {
+return;
+}
     
     const targetPosition = el.getBoundingClientRect().top + window.scrollY;
     const startPosition = window.scrollY;
@@ -49,17 +52,28 @@ const scrollToServices = (e: Event) => {
 
     const easeInOutCubic = (t: number, b: number, c: number, d: number) => {
         t /= d / 2;
-        if (t < 1) return c / 2 * t * t * t + b;
+
+        if (t < 1) {
+return c / 2 * t * t * t + b;
+}
+
         t -= 2;
+
         return c / 2 * (t * t * t + 2) + b;
     };
 
     const animation = (currentTime: number) => {
-        if (start === null) start = currentTime;
+        if (start === null) {
+start = currentTime;
+}
+
         const timeElapsed = currentTime - start;
         const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
         window.scrollTo(0, run);
-        if (timeElapsed < duration) requestAnimationFrame(animation);
+
+        if (timeElapsed < duration) {
+requestAnimationFrame(animation);
+}
     };
 
     requestAnimationFrame(animation);
@@ -88,7 +102,7 @@ const scrollToServices = (e: Event) => {
                 ref="subtitleRef"
                 class="mx-auto mb-10 max-w-2xl text-xl text-foreground/80 md:text-2xl"
             >
-                A premium digital agency creating modern, elegant, and technically impressive platforms.
+                Ebnely is creating modern, elegant, and technically impressive platforms.
             </p>
             <div ref="btnRef">
                 <a

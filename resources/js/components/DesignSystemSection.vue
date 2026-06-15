@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, watch, nextTick, onMounted } from 'vue';
 import { gsap } from 'gsap';
+import { ref, watch, nextTick, onMounted } from 'vue';
 
 const colors = [
     { 
@@ -37,7 +37,9 @@ const selectedColor = ref(colors[0]);
 const previewContainerRef = ref<HTMLElement | null>(null);
 
 const triggerHighlightAnimation = () => {
-    if (!previewContainerRef.value) return;
+    if (!previewContainerRef.value) {
+return;
+}
 
     // First, clear any existing animations
     gsap.killTweensOf('.preview-element');
@@ -47,10 +49,16 @@ const triggerHighlightAnimation = () => {
 
     // Determine the target class based on the selected color
     let targetClass = '';
-    if (selectedColor.value.id === 'primary') targetClass = '.preview-primary';
-    else if (selectedColor.value.id === 'background') targetClass = '.preview-background';
-    else if (selectedColor.value.id === 'card') targetClass = '.preview-card';
-    else if (selectedColor.value.id === 'foreground') targetClass = '.preview-foreground';
+
+    if (selectedColor.value.id === 'primary') {
+targetClass = '.preview-primary';
+} else if (selectedColor.value.id === 'background') {
+targetClass = '.preview-background';
+} else if (selectedColor.value.id === 'card') {
+targetClass = '.preview-card';
+} else if (selectedColor.value.id === 'foreground') {
+targetClass = '.preview-foreground';
+}
 
     // Dim non-target elements slightly to create contrast
     gsap.to('.preview-element:not(' + targetClass + ')', {

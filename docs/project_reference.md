@@ -1,7 +1,7 @@
-# Premium Digital Agency Website - Project Reference
+# Ebnely Website - Project Reference
 
 ## Overview
-This project is a premium digital agency website built to showcase development, design, and engineering capabilities through its exceptional user experience. It avoids generic marketing claims and instead relies on technical excellence, smooth animations, and a cohesive design system.
+This project is the Ebnely website built to showcase development, design, and engineering capabilities through its exceptional user experience. It avoids generic marketing claims and instead relies on technical excellence, smooth animations, and a cohesive design system.
 
 ## Technology Stack
 - **Frontend Framework**: Vue 3 (Composition API)
