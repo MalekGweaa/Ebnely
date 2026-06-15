@@ -140,8 +140,8 @@ onMounted(() => {
                         @click="selectedColor = color"
                         class="group relative w-full text-left rounded-3xl p-8 transition-all duration-500 overflow-hidden border focus:outline-none"
                         :class="selectedColor.id === color.id 
-                            ? 'bg-card border-border shadow-xl ring-1 ring-border/50 scale-[1.02]' 
-                            : 'bg-transparent border-transparent hover:bg-card/50 hover:border-border/50'"
+                            ? 'bg-card border-border shadow-[0_8px_30px_rgba(0,0,0,0.12)] ring-1 ring-border/50 scale-[1.02]' 
+                            : 'bg-card/40 border-transparent hover:bg-card/70 hover:border-border/40 shadow-sm'"
                     >
                         <div class="flex flex-col sm:flex-row sm:items-start gap-8">
                             <!-- Large Color Circle -->
@@ -164,16 +164,32 @@ onMounted(() => {
                     </button>
                 </div>
 
-                <!-- Right Side: Editorial Showcase Panel -->
+                <!-- Right Side: Editorial Showcase Panel (macOS Window) -->
                 <div 
                     ref="panelRef"
-                    class="rounded-[2.5rem] p-10 sm:p-12 lg:p-16 border shadow-2xl transition-colors duration-700 ease-in-out relative overflow-hidden"
+                    class="rounded-3xl border shadow-2xl transition-colors duration-700 ease-in-out relative overflow-hidden flex flex-col"
                     :class="[selectedColor.bgClass, selectedColor.id === 'background' || selectedColor.id === 'card' ? 'border-border' : 'border-transparent']"
                 >
-                    <!-- Decorative subtle background pattern/gradient based on color -->
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-[0.03] rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
-                    
-                    <div ref="panelContentRef" class="relative z-10 flex flex-col h-full min-h-[500px]">
+                    <!-- macOS top bar -->
+                    <div class="px-6 py-4 flex items-center gap-2 border-b transition-colors duration-700 backdrop-blur-sm z-20"
+                         :class="selectedColor.id === 'primary' || selectedColor.id === 'foreground' ? 'border-white/10 bg-white/5' : 'border-foreground/10 bg-card/50'">
+                        <div class="flex gap-2">
+                            <div class="h-3.5 w-3.5 rounded-full bg-[#FF5F56] border border-[#E0443E]"></div>
+                            <div class="h-3.5 w-3.5 rounded-full bg-[#FFBD2E] border border-[#DEA123]"></div>
+                            <div class="h-3.5 w-3.5 rounded-full bg-[#27C93F] border border-[#1AAB29]"></div>
+                        </div>
+                        <div class="ml-4 text-xs font-bold tracking-widest uppercase transition-colors duration-700"
+                             :class="selectedColor.contrastText" :style="{ opacity: 0.5 }">
+                            Live Showcase
+                        </div>
+                    </div>
+
+                    <!-- Panel Content -->
+                    <div class="p-10 sm:p-12 lg:p-16 relative flex-grow">
+                        <!-- Decorative subtle background pattern/gradient based on color -->
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-[0.03] rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
+                        
+                        <div ref="panelContentRef" class="relative z-10 flex flex-col h-full min-h-[450px]">
                         <!-- Top Tag -->
                         <div class="mb-16">
                             <span 
