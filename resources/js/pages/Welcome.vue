@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Head } from '@inertiajs/vue3';
 import BackToTop from '@/components/BackToTop.vue';
 import ContactSection from '@/components/ContactSection.vue';
 import CreativeLabSection from '@/components/CreativeLabSection.vue';
@@ -12,6 +13,8 @@ import TestimonialsSection from '@/components/TestimonialsSection.vue';
 </script>
 
 <template>
+    <Head title="Ebnely" />
+    
     <div class="min-h-screen bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground font-sans">
         <SiteHeader />
         <HeroSection />

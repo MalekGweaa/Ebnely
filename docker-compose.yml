@@ -1,0 +1,42 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        VITE_APP_NAME: ${APP_NAME}
+    image: ebnely:latest
+    env_file: .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - uploads:/var/www/html/storage/app/public
+      - sqlite_db:/var/www/html/database
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    restart: unless-stopped
+
+  queue:
+    image: ebnely:latest
+    env_file: .env
+    command: php artisan queue:work --tries=3 --timeout=90 --max-time=3600
+    volumes:
+      - uploads:/var/www/html/storage/app/public
+      - sqlite_db:/var/www/html/database
+    healthcheck:
+      disable: true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.15'
+          memory: 256M
+    restart: unless-stopped
+
+volumes:
+  uploads:
+  sqlite_db:
