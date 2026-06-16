@@ -38,22 +38,32 @@ const panelRef = ref<HTMLElement | null>(null);
 // Themes values mapping
 const themes = {
     primary: {
+        sectionBg: '#F1E2D1',
+        sectionText: '#541A1A',
+        sectionTextMuted: '#6B5A4A',
         background: '#810B38',
         text: '#F1E2D1',
         textMuted: 'rgba(241, 226, 209, 0.75)',
         button: '#F1E2D1',
         buttonText: '#810B38',
-        border: 'rgba(241, 226, 209, 0.15)',
-        card: '#F1E2D1',
+        border: 'rgba(241, 226, 209, 0.12)',
+        card: '#FFFFFF',
         cardText: '#541A1A',
         cardTextMuted: 'rgba(84, 26, 26, 0.75)',
         cardBorder: 'rgba(84, 26, 26, 0.08)',
         cardButton: '#810B38',
         cardButtonText: '#F1E2D1',
-        accent: '#810B38',
+        accent: '#F1E2D1',
         glow: 'rgba(255, 255, 255, 0.1)',
+        tokenBg: 'rgba(255, 255, 255, 0.65)',
+        tokenBgActive: 'rgba(255, 255, 255, 0.85)',
+        tokenBorder: 'rgba(255, 255, 255, 0.4)',
+        tokenBorderActive: 'rgba(255, 255, 255, 0.8)',
     },
     background: {
+        sectionBg: '#810B38',
+        sectionText: '#F1E2D1',
+        sectionTextMuted: 'rgba(241, 226, 209, 0.75)',
         background: '#F1E2D1',
         text: '#541A1A',
         textMuted: '#6B5A4A',
@@ -68,6 +78,10 @@ const themes = {
         cardButtonText: '#F1E2D1',
         accent: '#810B38',
         glow: 'rgba(84, 26, 26, 0.1)',
+        tokenBg: 'rgba(241, 226, 209, 0.85)',
+        tokenBgActive: '#F1E2D1',
+        tokenBorder: 'rgba(241, 226, 209, 0.4)',
+        tokenBorderActive: 'rgba(241, 226, 209, 0.8)',
     }
 };
 
@@ -77,6 +91,9 @@ watch(selectedColor, (newVal) => {
     
     // Transition theme variables dynamically on the root section element
     gsap.to(sectionRef.value, {
+        '--theme-section-bg': theme.sectionBg,
+        '--theme-section-text': theme.sectionText,
+        '--theme-section-text-muted': theme.sectionTextMuted,
         '--theme-bg': theme.background,
         '--theme-text': theme.text,
         '--theme-text-muted': theme.textMuted,
@@ -91,6 +108,10 @@ watch(selectedColor, (newVal) => {
         '--theme-card-button-text': theme.cardButtonText,
         '--theme-accent': theme.accent,
         '--theme-glow': theme.glow,
+        '--theme-token-bg': theme.tokenBg,
+        '--theme-token-bg-active': theme.tokenBgActive,
+        '--theme-token-border': theme.tokenBorder,
+        '--theme-token-border-active': theme.tokenBorderActive,
         duration: 0.8,
         ease: 'power2.out'
     });
@@ -101,6 +122,9 @@ onMounted(() => {
     const initTheme = themes[selectedColor.value.id as keyof typeof themes];
     if (sectionRef.value && initTheme) {
         gsap.set(sectionRef.value, {
+            '--theme-section-bg': initTheme.sectionBg,
+            '--theme-section-text': initTheme.sectionText,
+            '--theme-section-text-muted': initTheme.sectionTextMuted,
             '--theme-bg': initTheme.background,
             '--theme-text': initTheme.text,
             '--theme-text-muted': initTheme.textMuted,
@@ -115,6 +139,10 @@ onMounted(() => {
             '--theme-card-button-text': initTheme.cardButtonText,
             '--theme-accent': initTheme.accent,
             '--theme-glow': initTheme.glow,
+            '--theme-token-bg': initTheme.tokenBg,
+            '--theme-token-bg-active': initTheme.tokenBgActive,
+            '--theme-token-border': initTheme.tokenBorder,
+            '--theme-token-border-active': initTheme.tokenBorderActive,
         });
     }
 
@@ -176,7 +204,7 @@ onMounted(() => {
     <section 
         ref="sectionRef" 
         class="theme-container py-32 px-6 relative overflow-hidden border-t border-b" 
-        style="background-color: var(--theme-bg); border-color: var(--theme-border);"
+        style="background-color: var(--theme-section-bg); border-color: var(--theme-border);"
         id="design-system"
     >
         <!-- Section-Wide Floating Background Elements (react to theme) -->
@@ -198,10 +226,10 @@ onMounted(() => {
         <div class="max-w-7xl mx-auto relative z-10">
             <!-- Section Header (Adapts to Active Theme Colors) -->
             <div class="mb-20 md:w-2/3">
-                <h2 ref="titleRef" class="text-5xl lg:text-6xl font-bold mb-6 tracking-tight theme-text">
+                <h2 ref="titleRef" class="text-5xl lg:text-6xl font-bold mb-6 tracking-tight transition-colors duration-500" style="color: var(--theme-section-text)">
                     Design DNA
                 </h2>
-                <p ref="descRef" class="text-2xl font-light leading-relaxed theme-text-muted">
+                <p ref="descRef" class="text-2xl font-light leading-relaxed transition-colors duration-500" style="color: var(--theme-section-text-muted)">
                     Every exceptional digital experience starts with a carefully crafted visual language.
                 </p>
             </div>
@@ -210,44 +238,58 @@ onMounted(() => {
             <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-12 items-stretch">
                 
                 <!-- Left Side: Interactive Token Cards -->
-                <div class="flex flex-col gap-5 justify-center">
+                <div class="flex flex-col gap-8 justify-center">
                     <button
                         v-for="color in colors"
                         :key="color.id"
                         ref="swatchRefs"
                         @click="selectedColor = color"
-                        class="token-card group relative w-full text-left p-7 focus:outline-none flex cursor-pointer overflow-hidden"
+                        class="token-card group relative w-full text-left p-8 focus:outline-none flex cursor-pointer overflow-visible"
                         :class="{ 'active': selectedColor.id === color.id }"
                     >
-                        <!-- Left Accent Indicator Bar -->
+                        <!-- Background glow effect behind the card to add depth -->
                         <div 
-                            class="absolute left-0 top-0 bottom-0 w-1.5 transition-transform duration-500 origin-top"
+                            class="absolute inset-0 rounded-[32px] transition-all duration-600 ease-[cubic-bezier(0.34,1.56,0.64,1)] -z-10"
                             :style="{
-                                backgroundColor: 'var(--theme-accent)',
-                                transform: selectedColor.id === color.id ? 'scaleY(1)' : 'scaleY(0)'
+                                backgroundColor: color.hex,
+                                filter: 'blur(30px)',
+                                opacity: selectedColor.id === color.id ? 0.15 : 0,
+                                transform: selectedColor.id === color.id ? 'scale(1.05)' : 'scale(1)'
                             }"
                         ></div>
-                        
-                        <div class="flex flex-col sm:flex-row sm:items-start gap-6 relative z-10 w-full">
-                            <!-- Color Circle (Always shows the token's specific color) -->
-                            <div 
-                                class="h-20 w-20 shrink-0 rounded-full shadow-inner border border-black/10 transition-transform duration-500"
-                                :style="{ backgroundColor: color.hex }"
-                                :class="[selectedColor.id === color.id ? 'scale-110' : 'group-hover:scale-105']"
-                            ></div>
+
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-8 relative z-10 w-full">
+                            <!-- Color Circle (Hero element) -->
+                            <div class="relative shrink-0">
+                                <div 
+                                    class="h-[80px] w-[80px] rounded-full shadow-[0_8px_16px_rgba(0,0,0,0.1)] transition-transform duration-600 ease-[cubic-bezier(0.34,1.56,0.64,1)] relative z-10"
+                                    :style="{ backgroundColor: color.hex }"
+                                    :class="[selectedColor.id === color.id ? 'scale-[1.05]' : 'group-hover:scale-[1.02]']"
+                                ></div>
+                                <!-- Subtle glow from selected color -->
+                                <div 
+                                    class="absolute inset-0 rounded-full transition-all duration-600 ease-[cubic-bezier(0.34,1.56,0.64,1)] z-0"
+                                    :style="{ 
+                                        backgroundColor: color.hex,
+                                        filter: 'blur(16px)',
+                                        opacity: selectedColor.id === color.id ? 0.6 : 0,
+                                        transform: selectedColor.id === color.id ? 'scale(1.3)' : 'scale(1)'
+                                    }"
+                                ></div>
+                            </div>
                             
                             <!-- Content -->
                             <div class="flex-1 pt-1">
-                                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2 gap-2">
-                                    <h3 class="text-xl font-bold theme-card-text leading-none">{{ color.name }}</h3>
+                                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-3">
+                                    <h3 class="text-[24px] font-semibold theme-card-text leading-none tracking-tight">{{ color.name }}</h3>
                                     <span 
-                                        class="font-mono text-xs tracking-wider uppercase px-3 py-1 rounded-full text-center"
-                                        style="background-color: var(--theme-bg); color: var(--theme-text)"
+                                        class="font-mono text-[11px] font-semibold tracking-wider uppercase px-3 py-1.5 rounded-full text-center border shadow-sm transition-all duration-500"
+                                        style="background-color: rgba(255,255,255,0.5); color: var(--theme-card-text); border-color: rgba(255,255,255,0.8)"
                                     >
                                         {{ color.hex }}
                                     </span>
                                 </div>
-                                <p class="text-base leading-relaxed font-light theme-card-text-muted">
+                                <p class="text-[15px] leading-relaxed font-normal theme-card-text-muted opacity-90 pr-2">
                                     {{ color.purpose }}
                                 </p>
                             </div>
@@ -417,6 +459,9 @@ onMounted(() => {
 <style scoped>
 .theme-container {
     /* Safe CSS variables default fallback */
+    --theme-section-bg: #F1E2D1;
+    --theme-section-text: #541A1A;
+    --theme-section-text-muted: rgba(84, 26, 26, 0.75);
     --theme-bg: #810B38;
     --theme-text: #F1E2D1;
     --theme-text-muted: rgba(241, 226, 209, 0.75);
@@ -434,33 +479,34 @@ onMounted(() => {
 }
 
 .token-card {
-    background-color: var(--theme-card);
-    border: 2px solid var(--theme-card-border);
-    border-radius: 1rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    background-color: var(--theme-token-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--theme-token-border);
+    border-radius: 32px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     transform: scale(1);
     z-index: 1;
     transition: 
-        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-        border-color 0.4s ease,
+        transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
         background-color 0.4s ease,
-        color 0.4s ease;
+        border-color 0.4s ease;
 }
 
 .token-card.active {
     transform: scale(1.02);
-    border-color: var(--theme-accent);
+    background-color: var(--theme-token-bg-active);
+    border-color: var(--theme-token-border-active);
     box-shadow: 
-        0 12px 30px -10px rgba(0, 0, 0, 0.15),
-        0 4px 12px -4px rgba(0, 0, 0, 0.1);
+        0 20px 40px rgba(0, 0, 0, 0.12),
+        0 8px 16px rgba(0, 0, 0, 0.06);
     z-index: 10;
 }
 
 .token-card:not(.active):hover {
     transform: scale(1.01);
-    box-shadow: 
-        0 12px 24px -10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
 }
 
 .preview-window {
@@ -468,7 +514,7 @@ onMounted(() => {
     border: 1px solid var(--theme-border);
     border-radius: 1rem;
     box-shadow: 
-        0 30px 60px -15px rgba(0, 0, 0, 0.2),
+        0 25px 80px rgba(84, 26, 26, 0.12),
         inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 

@@ -28,10 +28,6 @@ RUN composer dump-autoload --optimize --no-dev --no-interaction
 RUN cp .env.example .env \
  && php -r "echo 'APP_KEY=base64:'.base64_encode(random_bytes(32)).PHP_EOL;" >> .env
 ARG VITE_APP_NAME
-ARG VITE_REVERB_APP_KEY
-ARG VITE_REVERB_HOST
-ARG VITE_REVERB_PORT
-ARG VITE_REVERB_SCHEME
 RUN npm run build
 RUN rm -f .env
 
