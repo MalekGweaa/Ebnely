@@ -278,7 +278,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <section ref="containerRef" class="relative py-32 lg:py-48 px-6 bg-background text-foreground overflow-hidden" id="creative-lab">
+    <section ref="containerRef" class="relative pt-32 pb-12 lg:pt-48 lg:pb-16 px-6 bg-background text-foreground overflow-hidden" id="creative-lab">
         
         <!-- Dynamic Environment Backgrounds -->
         <div class="absolute inset-0 pointer-events-none transition-opacity duration-1000" :class="activeConcept.env === 'particles' ? 'opacity-100' : 'opacity-0'">

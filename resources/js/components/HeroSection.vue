@@ -1,14 +1,24 @@
 <script setup lang="ts">
 import { gsap } from 'gsap';
-import { onMounted, ref } from 'vue';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { onMounted, onUnmounted, ref } from 'vue';
+
+gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
 
 const heroRef = ref<HTMLElement | null>(null);
+const contentRef = ref<HTMLElement | null>(null);
 const titleRef = ref<HTMLElement | null>(null);
 const subtitleRef = ref<HTMLElement | null>(null);
-const btnRef = ref<HTMLElement | null>(null);
 const arrowRef = ref<HTMLElement | null>(null);
+const rippleRef = ref<HTMLElement | null>(null);
+
+let isScrolling = false;
+let ctx: gsap.Context;
 
 onMounted(() => {
+    ctx = gsap.context(() => {
+    // Initial Reveal Animation
     const tl = gsap.timeline();
     tl.from(titleRef.value, {
         y: 40,
@@ -22,61 +32,64 @@ onMounted(() => {
         duration: 0.6,
         ease: 'power3.out',
     }, '<0.2')
-    .from(btnRef.value, {
-        y: 15,
-        opacity: 0,
-        duration: 0.5,
-        ease: 'power3.out',
-    }, '<0.15')
     .from(arrowRef.value, {
         y: -10,
         opacity: 0,
         duration: 0.6,
         ease: 'power3.out',
     }, '<0.15');
+
+    // Scroll Journey Parallax Animation
+    if (heroRef.value && contentRef.value) {
+        gsap.to(contentRef.value, {
+            scrollTrigger: {
+                trigger: heroRef.value,
+                start: "top top",
+                end: "bottom top",
+                scrub: true,
+            },
+            y: -100, // Move upward slightly while scrolling
+        });
+    }
+    });
 });
 
-const scrollToServices = (e: Event) => {
-    e.preventDefault();
+onUnmounted(() => {
+    if (ctx) ctx.revert();
+});
+
+const scrollToServices = () => {
+    if (isScrolling) return;
+
     const el = document.getElementById('services');
+    if (!el) return;
 
-    if (!el) {
-return;
-}
-    
-    const targetPosition = el.getBoundingClientRect().top + window.scrollY;
-    const startPosition = window.scrollY;
-    const distance = targetPosition - startPosition;
-    const duration = 1200; // 1.2 seconds for a slow, smooth feel
-    let start: number | null = null;
+    isScrolling = true;
 
-    const easeInOutCubic = (t: number, b: number, c: number, d: number) => {
-        t /= d / 2;
+    // Arrow click animation (instant feedback)
+    if (arrowRef.value) {
+        gsap.to(arrowRef.value, {
+            scale: 0.85,
+            duration: 0.075,
+            yoyo: true,
+            repeat: 1,
+            ease: 'power1.inOut'
+        });
+    }
 
-        if (t < 1) {
-return c / 2 * t * t * t + b;
-}
+    const header = document.querySelector('header');
+    const headerHeight = header ? header.offsetHeight + 20 : 100;
 
-        t -= 2;
-
-        return c / 2 * (t * t * t + 2) + b;
-    };
-
-    const animation = (currentTime: number) => {
-        if (start === null) {
-start = currentTime;
-}
-
-        const timeElapsed = currentTime - start;
-        const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
-        window.scrollTo(0, run);
-
-        if (timeElapsed < duration) {
-requestAnimationFrame(animation);
-}
-    };
-
-    requestAnimationFrame(animation);
+    // Cinematic Smooth Scroll
+    gsap.killTweensOf(window); // Prevent duplicate conflicting tweens
+    gsap.to(window, {
+        duration: 1.3,
+        scrollTo: { y: el, autoKill: false },
+        ease: 'expo.inOut',
+        onComplete: () => {
+            isScrolling = false;
+        }
+    });
 };
 </script>
 
@@ -84,13 +97,13 @@ requestAnimationFrame(animation);
     <section
         id="home"
         ref="heroRef"
-        class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background px-6 pb-32 pt-32 text-foreground"
+        class="relative flex flex-col items-center justify-center min-h-[100dvh] overflow-hidden bg-background px-6 pb-20 pt-32 text-foreground"
     >
         <!-- Floating Elements -->
         <div class="absolute -top-40 -right-40 h-96 w-96 rounded-full bg-secondary opacity-30 blur-3xl mix-blend-multiply"></div>
         <div class="absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-primary opacity-10 blur-3xl mix-blend-multiply"></div>
 
-        <div class="z-10 max-w-4xl text-center mt-20">
+        <div ref="contentRef" class="z-10 max-w-4xl text-center">
             <h1
                 ref="titleRef"
                 class="mb-6 text-6xl font-bold tracking-tight md:text-8xl"
@@ -100,31 +113,35 @@ requestAnimationFrame(animation);
             </h1>
             <p
                 ref="subtitleRef"
-                class="mx-auto mb-10 max-w-2xl text-xl text-foreground/80 md:text-2xl"
+                class="mx-auto mb-8 max-w-2xl text-xl text-foreground/80 md:text-2xl font-light"
             >
-                Ebnely is creating modern, elegant, and technically impressive platforms.
+                Elegant digital products built with precision and purpose.
             </p>
-            <div ref="btnRef">
-                <a
-                    href="#contact"
-                    class="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-primary px-8 py-4 font-semibold text-primary-foreground transition-transform hover:scale-105"
-                >
-                    <span class="absolute inset-0 h-full w-full rounded-full bg-foreground opacity-0 transition-opacity duration-300 group-hover:opacity-10"></span>
-                    Start a Project
-                    <svg class="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                </a>
-            </div>
 
             <!-- Scroll Indicator -->
-            <div ref="arrowRef" class="mt-12 flex justify-center">
-                <a href="#services" @click="scrollToServices" class="animate-bounce flex h-14 w-14 items-center justify-center rounded-full transition-colors hover:bg-foreground/10 group">
-                    <svg class="h-6 w-6 text-foreground/50 transition-colors group-hover:text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            <div class="mt-6 flex justify-center relative">
+                <a 
+                    ref="arrowRef"
+                    role="button"
+                    tabindex="0"
+                    @click.prevent="scrollToServices" 
+                    class="group relative z-20 flex flex-col items-center justify-center transition-transform duration-[250ms] hover:-translate-y-[2px] cursor-pointer"
+                >
+                    <svg class="h-8 w-8 animate-bounce-subtle transition-opacity duration-[250ms] group-hover:opacity-100" style="color: #810B38; opacity: 0.5;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                     </svg>
                 </a>
             </div>
         </div>
     </section>
 </template>
+
+<style scoped>
+@keyframes bounceSubtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+.animate-bounce-subtle {
+  animation: bounceSubtle 1.8s ease-in-out infinite;
+}
+</style>
