@@ -1,35 +1,93 @@
 <script setup lang="ts">
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { onMounted, ref } from 'vue';
 
-const quoteRef = ref<HTMLElement | null>(null);
+gsap.registerPlugin(ScrollTrigger);
+
+const sectionRef = ref<HTMLElement | null>(null);
+const authorRef = ref<HTMLElement | null>(null);
+
+const line1 = '“Where design excellence';
+const line2 = 'meets engineering precision.”';
+
+const displayedLine1 = ref('');
+const displayedLine2 = ref('');
+const isTyping = ref(false);
+
+const typeText = async (text: string, displayedRef: any) => {
+    for (let i = 0; i <= text.length; i++) {
+        displayedRef.value = text.slice(0, i);
+        
+        // Add natural pauses after specific punctuation (commas, periods, quotes)
+        const lastChar = text[i - 1];
+        let delay = 25; // default typing speed (20-30ms per character)
+        if (lastChar === ',' || lastChar === '،') {
+            delay = 300; // pause for comma
+        } else if (lastChar === '.' || lastChar === '”' || lastChar === '’') {
+            delay = 500; // pause for period or quotes
+        }
+        
+        await new Promise(resolve => setTimeout(resolve, delay));
+    }
+};
+
+const startAnimation = async () => {
+    isTyping.value = true;
+    isTyping.value = true;
+    
+    // Small initial delay before typing starts
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    // 2. Type line 1 character-by-character
+    await typeText(line1, displayedLine1);
+    
+    // Small pause between lines
+    await new Promise(resolve => setTimeout(resolve, 150));
+    
+    // Type line 2 character-by-character
+    await typeText(line2, displayedLine2);
+    
+    isTyping.value = false;
+
+    // 3. Author block reveal: opacity 0 -> 1, y 20 -> 0
+    gsap.fromTo(authorRef.value,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }
+    );
+};
 
 onMounted(() => {
-    gsap.from(quoteRef.value, {
-        scrollTrigger: {
-            trigger: quoteRef.value,
-            start: 'top 80%',
-        },
-        y: 40,
-        opacity: 0,
-        duration: 1,
-        ease: 'power2.out',
+    // ScrollTrigger to trigger typing when entering viewport
+    ScrollTrigger.create({
+        trigger: sectionRef.value,
+        start: 'top 60%',
+        once: true,
+        onEnter: () => {
+            startAnimation();
+        }
     });
 });
 </script>
 
 <template>
-    <section class="py-40 px-6 bg-background text-foreground flex items-center justify-center text-center" id="testimonials">
-        <div class="max-w-4xl mx-auto" ref="quoteRef">
-            <svg class="h-16 w-16 text-primary mx-auto mb-8" fill="currentColor" stroke="currentColor" stroke-width="1" viewBox="0 0 32 32" aria-hidden="true">
-                <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
-            </svg>
-            <blockquote class="text-3xl md:text-5xl font-medium leading-tight mb-12">
-                "They didn't just build a website; they transformed our entire digital presence. The quality of engineering and attention to detail is truly world-class."
+    <section ref="sectionRef" class="relative w-full h-screen h-dvh min-h-screen min-h-dvh flex items-center justify-center text-center overflow-hidden px-6" style="background-color: #541A1A;" id="testimonials">
+        <div class="mx-auto flex flex-col items-center justify-center pt-20 lg:pt-[120px]" style="max-width: 1400px; width: min(90vw, 1400px);">
+            <!-- Typewriter Quote Block -->
+            <blockquote class="text-center mb-10 flex flex-col justify-center items-center select-none" style="color: #F1E2D1; font-size: clamp(2.5rem, 4.5vw, 5.5rem); line-height: 1.15; font-weight: 500; letter-spacing: -0.04em;">
+                <span class="inline-block relative">
+                    {{ displayedLine1 }}<span v-if="isTyping && displayedLine2 === ''" class="inline-block w-[2px] h-[1em] bg-current ml-1 animate-pulse align-middle"></span>
+                </span>
+                <br class="hidden md:block" />
+                <span class="inline-block relative">
+                    {{ displayedLine2 }}<span v-if="isTyping && displayedLine2 !== ''" class="inline-block w-[2px] h-[1em] bg-current ml-1 animate-pulse align-middle"></span>
+                </span>
             </blockquote>
-            <cite class="not-italic">
-                <div class="font-bold text-xl text-primary">Sarah Jenkins</div>
-                <div class="text-foreground/60 text-lg">CTO, Nexus Financial</div>
+
+            <!-- Author Block -->
+            <cite ref="authorRef" class="not-italic flex flex-col items-center opacity-0" style="transform: translateY(20px);">
+                <div class="font-bold text-lg md:text-xl mb-1" style="color: #F1E2D1;">Sarah Jenkins</div>
+                <div class="text-base md:text-lg font-light tracking-wide" style="color: rgba(241,226,209,0.75);">CTO · Nexus Financial</div>
             </cite>
         </div>
     </section>
