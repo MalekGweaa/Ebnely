@@ -15,7 +15,7 @@ import TestimonialsSection from '@/components/TestimonialsSection.vue';
 <template>
     <Head title="Ebnely" />
     
-    <div class="min-h-screen bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground font-sans">
+    <div class="min-h-screen bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground font-sans overflow-x-hidden">
         <SiteHeader />
         <HeroSection />
         <ServicesSection />

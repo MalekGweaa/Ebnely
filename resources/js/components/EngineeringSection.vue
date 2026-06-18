@@ -44,7 +44,7 @@ onMounted(() => {
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
             <!-- Text Content -->
             <div class="w-full lg:w-1/2">
-                <h2 class="text-5xl font-bold mb-6">Engineering Excellence</h2>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Engineering Excellence</h2>
                 <p class="text-xl text-foreground/80 mb-8 leading-relaxed">
                     We don't just build websites; we engineer robust, scalable systems capable of handling enterprise demands. Our architecture ensures maximum performance, security, and maintainability.
                 </p>

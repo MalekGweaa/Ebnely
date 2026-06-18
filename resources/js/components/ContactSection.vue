@@ -83,7 +83,7 @@ onMounted(() => {
                     <a ref="btn1Ref" href="#" class="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 font-bold text-lg rounded-full transition-colors duration-300 shadow-xl hover:opacity-90" style="background-color: #F1E2D1; color: #541A1A;">
                         Chat on WhatsApp
                     </a>
-                    <a ref="btn2Ref" href="#" class="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 bg-transparent border-2 font-bold text-lg rounded-full transition-colors duration-300 hover:bg-[#F1E2D1] hover:text-[#541A1A]" style="border-color: rgba(241, 226, 209, 0.3); color: #F1E2D1;">
+                    <a ref="btn2Ref" href="#" class="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 bg-transparent border-2 border-[#F1E2D1]/30 text-[#F1E2D1] font-bold text-lg rounded-full transition-all duration-300 ease-out hover:bg-[#F1E2D1] hover:text-[#810B38] hover:border-[#810B38]">
                         Explore My Work
                     </a>
                 </div>

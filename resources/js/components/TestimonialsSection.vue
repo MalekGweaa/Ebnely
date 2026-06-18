@@ -71,10 +71,10 @@ onMounted(() => {
 </script>
 
 <template>
-    <section ref="sectionRef" class="relative w-full h-screen h-dvh min-h-screen min-h-dvh flex items-center justify-center text-center overflow-hidden px-6" style="background-color: #541A1A;" id="testimonials">
-        <div class="mx-auto flex flex-col items-center justify-center pt-20 lg:pt-[120px]" style="max-width: 1400px; width: min(90vw, 1400px);">
+    <section ref="sectionRef" class="relative w-full min-h-[100dvh] flex items-center justify-center text-center overflow-hidden px-4 md:px-6" style="background-color: #541A1A;" id="testimonials">
+        <div class="mx-auto flex flex-col items-center justify-center w-[90%] md:w-full max-w-5xl">
             <!-- Typewriter Quote Block -->
-            <blockquote class="text-center mb-10 flex flex-col justify-center items-center select-none" style="color: #F1E2D1; font-size: clamp(2.5rem, 4.5vw, 5.5rem); line-height: 1.15; font-weight: 500; letter-spacing: -0.04em;">
+            <blockquote class="text-center mb-10 flex flex-col justify-center items-center select-none w-full" style="color: #F1E2D1; font-size: clamp(2rem, 7vw, 4rem); line-height: 1.05; font-weight: 500; letter-spacing: -0.04em;">
                 <span class="inline-block relative">
                     {{ displayedLine1 }}<span v-if="isTyping && displayedLine2 === ''" class="inline-block w-[2px] h-[1em] bg-current ml-1 animate-pulse align-middle"></span>
                 </span>
