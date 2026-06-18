@@ -20,7 +20,7 @@ RUN apk add --no-cache \
     && ln -sf /usr/bin/php84 /usr/bin/php
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm install
 COPY --from=vendor /app/vendor ./vendor
 COPY --from=vendor /usr/bin/composer /usr/bin/composer
 COPY . .
