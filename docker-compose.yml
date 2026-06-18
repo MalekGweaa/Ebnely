@@ -7,7 +7,7 @@ services:
     image: ebnely:latest
     env_file: .env
     ports:
-      - "8000:8000"
+      - "8080:8000"
     volumes:
       - uploads:/var/www/html/storage/app/public
       - sqlite_db:/var/www/html/database
