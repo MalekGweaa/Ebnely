@@ -37,7 +37,7 @@ onMounted(() => {
     // Initialize button colors
     if (buttonRef.value) {
         gsap.set(buttonRef.value, {
-            backgroundColor: '#541A1A',
+            backgroundColor: '#6B141A',
             color: '#F1E2D1'
         });
     }
@@ -51,13 +51,13 @@ onMounted(() => {
         if (isDark) {
             gsap.to(buttonRef.value, {
                 backgroundColor: '#F1E2D1',
-                color: '#541A1A',
+                color: '#6B141A',
                 duration: 0.4,
                 ease: 'power2.out'
             });
         } else {
             gsap.to(buttonRef.value, {
-                backgroundColor: '#541A1A',
+                backgroundColor: '#6B141A',
                 color: '#F1E2D1',
                 duration: 0.4,
                 ease: 'power2.out'
@@ -95,11 +95,11 @@ onUnmounted(() => {
     <button
         ref="buttonRef"
         @click="scrollToTop"
-        class="fixed bottom-8 right-8 z-50 p-4 md:p-5 rounded-full shadow-2xl transition-transform duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-[#541A1A]/30"
+        class="fixed bottom-5 right-5 z-50 w-14 h-14 flex items-center justify-center rounded-full shadow-2xl transition-transform duration-300 md:hover:scale-110 focus:outline-none focus:ring-4 focus:ring-[#6B141A]/30"
         :class="isVisible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-10 pointer-events-none'"
         aria-label="Back to top"
     >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18" />
         </svg>
     </button>

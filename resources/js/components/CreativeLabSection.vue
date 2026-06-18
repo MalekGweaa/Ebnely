@@ -166,15 +166,18 @@ const layoutCards = (animate = true, durationMultiplier = 1.0) => {
         
         let yPos, scaleVal, zIndexVal, opacityVal;
         
-        // Stronger Visible Deck Depth
+        const isMobile = window.innerWidth < 1024;
+        
         if (relPos === 0) {
             yPos = 0; scaleVal = 1; zIndexVal = 30; opacityVal = 1;
         } else if (relPos === 1) {
-            yPos = -55; scaleVal = 0.95; zIndexVal = 20; opacityVal = 1;
+            yPos = isMobile ? -14 : -55; scaleVal = isMobile ? 0.96 : 0.95; zIndexVal = 20; opacityVal = 1;
         } else if (relPos === 2) {
-            yPos = -110; scaleVal = 0.90; zIndexVal = 10; opacityVal = 1;
+            yPos = isMobile ? -28 : -110; scaleVal = isMobile ? 0.92 : 0.90; zIndexVal = 10; opacityVal = 1;
+        } else if (relPos === 3) {
+            yPos = isMobile ? -42 : -165; scaleVal = isMobile ? 0.88 : 0.85; zIndexVal = 5; opacityVal = 1;
         } else {
-            yPos = -165; scaleVal = 0.85; zIndexVal = 0; opacityVal = 0;
+            yPos = isMobile ? -42 : -165; scaleVal = isMobile ? 0.88 : 0.85; zIndexVal = 0; opacityVal = 0;
         }
         
         if (animate) {
@@ -219,19 +222,25 @@ const triggerRevealAnimation = () => {
         const relPos = getRelPos(idx);
         let yPos, scaleVal, zIndexVal;
         
+        let opacityVal = 1;
+        const isMobile = window.innerWidth < 1024;
         if (relPos === 0) {
             yPos = 0; scaleVal = 1; zIndexVal = 30;
         } else if (relPos === 1) {
-            yPos = -55; scaleVal = 0.95; zIndexVal = 20;
+            yPos = isMobile ? -14 : -55; scaleVal = isMobile ? 0.96 : 0.95; zIndexVal = 20;
         } else if (relPos === 2) {
-            yPos = -110; scaleVal = 0.90; zIndexVal = 10;
+            yPos = isMobile ? -28 : -110; scaleVal = isMobile ? 0.92 : 0.90; zIndexVal = 10;
+        } else if (relPos === 3) {
+            yPos = isMobile ? -42 : -165; scaleVal = isMobile ? 0.88 : 0.85; zIndexVal = 5;
+            opacityVal = 1;
         } else {
-            yPos = -165; scaleVal = 0.85; zIndexVal = 0;
+            yPos = isMobile ? -42 : -165; scaleVal = isMobile ? 0.88 : 0.85; zIndexVal = 0;
+            opacityVal = 0;
         }
         
         gsap.set(card, { zIndex: zIndexVal });
         tl.to(card, {
-            opacity: (relPos > 2 ? 0 : 1),
+            opacity: opacityVal,
             y: yPos,
             scale: scaleVal,
             rotation: 0, // Settle to 0
@@ -278,7 +287,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <section ref="containerRef" class="relative pt-32 pb-12 lg:pt-48 lg:pb-16 px-6 bg-background text-foreground overflow-hidden" id="creative-lab">
+    <section ref="containerRef" class="relative pt-20 pb-20 lg:pt-48 lg:pb-16 px-6 bg-background text-foreground overflow-hidden" id="creative-lab">
         
         <!-- Dynamic Environment Backgrounds -->
         <div class="absolute inset-0 pointer-events-none transition-opacity duration-1000" :class="activeConcept.env === 'particles' ? 'opacity-100' : 'opacity-0'">
@@ -327,7 +336,7 @@ onUnmounted(() => {
                     Creative Laboratory
                 </span>
                 
-                <h2 class="text-5xl lg:text-7xl font-bold mb-8 leading-[1.05] tracking-tight">
+                <h2 class="text-4xl md:text-5xl lg:text-7xl font-bold mb-8 leading-[1.05] tracking-tight">
                     Pushing the boundaries<br/>of digital interaction.
                 </h2>
                 
@@ -336,31 +345,40 @@ onUnmounted(() => {
                 </p>
 
                 <!-- Enhanced Progress Feedback -->
-                <div class="mt-4 border-t border-foreground/10 pt-8">
-                    <div class="flex items-center gap-6 mb-3">
+                <div class="mt-4 border-t border-foreground/10 pt-4 lg:pt-8">
+                    <div class="flex items-center gap-6 mb-2 lg:mb-3">
                         <div class="text-sm font-mono font-bold tracking-widest text-primary/70 overflow-hidden h-6 flex items-center">
                             <span ref="numberRef" class="inline-block">{{ activeConcept.number }} / 05</span>
                         </div>
                     </div>
-                    <div class="overflow-hidden h-12 flex items-center">
-                        <h3 ref="titleRef" class="text-3xl font-bold tracking-tight inline-block">{{ activeConcept.title }}</h3>
+                    <div class="overflow-hidden h-10 lg:h-12 flex items-center">
+                        <h3 ref="titleRef" class="text-2xl lg:text-3xl font-bold tracking-tight inline-block">{{ activeConcept.title }}</h3>
+                    </div>
+                    
+                    <!-- Mobile interactive hint above deck -->
+                    <div class="lg:hidden mt-3 text-center animate-pulse">
+                        <span class="text-sm font-extrabold tracking-widest uppercase text-primary">
+                            Tap The Deck
+                        </span>
                     </div>
                 </div>
             </div>
 
             <!-- Right Side: Interactive Deck -->
-            <div class="flex-1 w-full flex justify-center lg:justify-end perspective-1000 relative h-[480px]">
-                
+            <div class="flex-1 w-full flex justify-center lg:justify-end perspective-1000 relative mt-8 lg:mt-0 pt-12 lg:pt-0">
                 <!-- Dedicated Parallax Wrapper -->
-                <div ref="parallaxWrapperRef" class="w-full max-w-[380px] h-full" style="transform-style: preserve-3d;">
-                    <div ref="cardsContainerRef" class="relative w-full h-full" style="transform-style: preserve-3d;">
+                <div ref="parallaxWrapperRef" class="w-full max-w-[320px] lg:max-w-[380px] mx-auto lg:mx-0 mt-4 lg:mt-0" style="transform-style: preserve-3d;">
+                    <div ref="cardsContainerRef" class="relative w-full pb-16 lg:pb-0" style="transform-style: preserve-3d;">
                         
                         <div
                             v-for="(concept, i) in concepts"
                             :key="concept.id"
                             :ref="el => { if (el) cardRefs[i] = el as HTMLElement }"
-                            class="absolute top-0 left-0 w-full h-[460px] group"
-                            :class="getRelPos(i) === 0 ? 'cursor-pointer pointer-events-auto' : 'pointer-events-none'"
+                            class="top-0 left-0 w-full h-[280px] lg:h-[460px] group"
+                            :class="[
+                                i === 0 ? 'relative' : 'absolute',
+                                getRelPos(i) === 0 ? 'cursor-pointer pointer-events-auto' : 'pointer-events-none'
+                            ]"
                             @click="handleCardClick(i)"
                         >
                             <div 
@@ -384,7 +402,7 @@ onUnmounted(() => {
                                 
                                 <div class="relative z-10 flex flex-col h-full justify-end">
                                     <div>
-                                        <h3 class="text-4xl font-bold mb-4 leading-[1.1] tracking-tight">{{ concept.title }}</h3>
+                                        <h3 class="text-3xl md:text-4xl font-bold mb-4 leading-[1.1] tracking-tight">{{ concept.title }}</h3>
                                         <p class="text-lg opacity-85 leading-relaxed font-medium">
                                             {{ concept.desc }}
                                         </p>

@@ -146,11 +146,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <header class="fixed top-0 left-0 right-0 z-50 px-4 py-4 transition-all duration-300 pointer-events-none">
-        <div class="pointer-events-auto mx-auto flex max-w-5xl items-center justify-between rounded-full bg-background/80 px-4 py-4 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] border border-border/40 relative z-[60]">
+    <header class="fixed top-0 left-0 right-0 z-50 px-4 py-2 md:py-4 transition-all duration-300 pointer-events-none">
+        <div class="pointer-events-auto mx-auto flex max-w-5xl items-center justify-between rounded-full bg-background/80 px-3 py-2 md:px-4 md:py-4 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] border border-border/40 relative z-[60]">
             <!-- Logo area -->
             <div class="flex items-center gap-2">
-                <a href="#home" @click.prevent="scrollTo('home')" class="font-bold text-xl tracking-tight text-[#541A1A] px-2">
+                <a href="#home" @click.prevent="scrollTo('home')" class="font-bold text-lg md:text-xl tracking-tight text-[#541A1A] px-2">
                     <span class="text-primary">E</span>bnely.
                 </a>
             </div>
@@ -191,7 +191,7 @@ onUnmounted(() => {
             
             <!-- Mobile Hamburger Menu Button -->
             <div class="block lg:hidden">
-                <button @click="toggleMenu" class="p-2 text-[#541A1A] focus:outline-none hover:bg-black/5 rounded-full transition-colors" aria-label="Toggle Menu">
+                <button @click="toggleMenu" class="p-1.5 md:p-2 text-[#541A1A] focus:outline-none hover:bg-black/5 rounded-full transition-colors" aria-label="Toggle Menu">
                     <svg v-if="!isMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>

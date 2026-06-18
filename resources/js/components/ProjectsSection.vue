@@ -46,7 +46,7 @@ onMounted(() => {
     <section ref="sectionRef" class="py-32 px-6 bg-secondary text-secondary-foreground" id="projects">
         <div class="max-w-7xl mx-auto">
             <div class="mb-24 text-center md:text-left">
-                <h2 class="text-5xl font-bold mb-6">Featured Projects</h2>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Featured Projects</h2>
                 <p class="text-xl text-secondary-foreground/80 max-w-2xl">
                     A selection of our most impactful work, demonstrating our engineering and design capabilities.
                 </p>

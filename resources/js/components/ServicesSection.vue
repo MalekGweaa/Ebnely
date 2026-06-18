@@ -86,15 +86,15 @@ onMounted(() => {
 </script>
 
 <template>
-    <section ref="sectionRef" class="py-32 px-6 bg-primary text-primary-foreground" id="services">
-        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20 items-stretch">
+    <section ref="sectionRef" class="py-16 lg:py-32 px-6 bg-primary text-primary-foreground" id="services">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 lg:gap-20 items-stretch">
             
             <!-- Content Half -->
             <div class="w-full lg:w-1/2">
                 <div class="mb-20">
                     <div ref="headingRef" class="overflow-hidden">
-                        <h2 class="text-5xl lg:text-6xl font-bold mb-4 leading-tight">Focus On Growing Your Business.</h2>
-                        <h3 class="text-3xl lg:text-4xl font-light text-[#DCC3AA] mb-8">We'll Handle The Technology.</h3>
+                        <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">Focus On Growing Your Business.</h2>
+                        <h3 class="text-2xl md:text-3xl lg:text-4xl font-light text-[#DCC3AA] mb-8">We'll Handle The Technology.</h3>
                     </div>
                     <p ref="descRef" class="text-xl leading-relaxed text-[#F1E2D1]/90 max-w-lg font-light tracking-wide">
                         From planning and design to development, deployment, and ongoing support, we manage every step of the digital process so you can focus on customers, growth, and business success.
@@ -108,7 +108,7 @@ onMounted(() => {
                         :ref="el => { if (el) cardsRef[index] = el as HTMLElement }"
                     >
                         <div
-                            class="group p-10 rounded-2xl transition-all duration-500 hover:-translate-y-1 h-full shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.15)] border border-transparent hover:border-[#DCC3AA]/20"
+                            class="group p-8 lg:p-10 rounded-2xl transition-all duration-500 hover:-translate-y-1 h-full shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.15)] border border-transparent hover:border-[#DCC3AA]/20"
                             style="background-color: #F1E2D1; color: #541A1A;"
                         >
                             <div class="flex items-center gap-6 mb-5">
@@ -130,7 +130,7 @@ onMounted(() => {
 
             <!-- Image Half -->
             <div class="w-full lg:w-1/2 relative" ref="imageContainerRef">
-                <div class="relative rounded-2xl overflow-hidden h-full shadow-[0_20px_40px_rgba(0,0,0,0.2)]">
+                <div class="relative rounded-2xl overflow-hidden h-[350px] sm:h-[450px] lg:h-full shadow-[0_20px_40px_rgba(0,0,0,0.2)]">
                     <img 
                         ref="imageRef"
                         :src="chairImage" 

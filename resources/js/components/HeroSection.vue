@@ -97,41 +97,41 @@ const scrollToServices = () => {
     <section
         id="home"
         ref="heroRef"
-        class="relative flex flex-col items-center justify-center min-h-[100dvh] overflow-hidden bg-background px-6 pb-20 pt-32 text-foreground"
+        class="relative flex flex-col items-center justify-center min-h-[100dvh] overflow-hidden bg-background px-4 lg:px-6 pt-24 pb-16 text-foreground"
     >
         <!-- Floating Elements -->
         <div class="absolute -top-40 -right-40 h-96 w-96 rounded-full bg-secondary opacity-30 blur-3xl mix-blend-multiply"></div>
         <div class="absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-primary opacity-10 blur-3xl mix-blend-multiply"></div>
 
-        <div ref="contentRef" class="z-10 max-w-4xl text-center">
+        <div ref="contentRef" class="z-10 max-w-4xl text-center -mt-20 md:-mt-24 lg:-mt-16">
             <h1
                 ref="titleRef"
-                class="mb-6 text-6xl font-bold tracking-tight md:text-8xl"
+                class="mb-4 lg:mb-6 text-[2.5rem] leading-[1.05] sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight"
             >
                 We Build Digital <br />
                 <span class="text-primary">Experiences</span> That Speak For Themselves.
             </h1>
             <p
                 ref="subtitleRef"
-                class="mx-auto mb-8 max-w-2xl text-xl text-foreground/80 md:text-2xl font-light"
+                class="mx-auto max-w-2xl text-lg text-foreground/80 md:text-2xl font-light"
             >
                 Elegant digital products built with precision and purpose.
             </p>
+        </div>
 
-            <!-- Scroll Indicator -->
-            <div class="mt-6 flex justify-center relative">
-                <a 
-                    ref="arrowRef"
-                    role="button"
-                    tabindex="0"
-                    @click.prevent="scrollToServices" 
-                    class="group relative z-20 flex flex-col items-center justify-center transition-transform duration-[250ms] hover:-translate-y-[2px] cursor-pointer"
-                >
-                    <svg class="h-8 w-8 animate-bounce-subtle transition-opacity duration-[250ms] group-hover:opacity-100" style="color: #810B38; opacity: 0.5;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </svg>
-                </a>
-            </div>
+        <!-- Scroll Indicator (Absolute Bottom) -->
+        <div class="absolute bottom-8 lg:bottom-12 left-1/2 -translate-x-1/2 z-20 flex justify-center">
+            <a 
+                ref="arrowRef"
+                role="button"
+                tabindex="0"
+                @click.prevent="scrollToServices" 
+                class="group flex flex-col items-center justify-center transition-transform duration-[250ms] hover:-translate-y-[2px] cursor-pointer"
+            >
+                <svg class="h-8 w-8 animate-bounce-subtle transition-opacity duration-[250ms] group-hover:opacity-100" style="color: #810B38; opacity: 0.5;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+            </a>
         </div>
     </section>
 </template>
