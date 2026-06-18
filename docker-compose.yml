@@ -6,8 +6,8 @@ services:
         VITE_APP_NAME: ${APP_NAME}
     image: ebnely:latest
     env_file: .env
-    ports:
-      - "8080:8000"
+    expose:
+      - "8000"
     volumes:
       - uploads:/var/www/html/storage/app/public
       - sqlite_db:/var/www/html/database
